@@ -29,6 +29,7 @@ setup(name='zopyx.blockchain',
       test_suite='tests',
       install_requires=[
           'lxml<4',
+          'fs',
           'setuptools',
       ],
       )
