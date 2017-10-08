@@ -1,15 +1,13 @@
-import os
 import json
 import fs
 import fs.opener
-import tempfile
-import hashlib
-import lxml.etree
 
 
 from zopyx.blockchain.hashes import sha256_for_name
 
 # Dictify hashes from JSON hash file
+
+
 def hashes_from_json(json_filename):
     hashes = dict()
     with open(json_filename, 'rb') as fp:
@@ -41,6 +39,6 @@ if __name__ == '__main__':
     import sys
     import pprint
     errors = verify_hashes(
-            sys.argv[-2],
-            hashes_from_json(sys.argv[-1]))
+        sys.argv[-2],
+        hashes_from_json(sys.argv[-1]))
     pprint.pprint(errors)

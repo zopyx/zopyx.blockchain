@@ -14,7 +14,7 @@ def sha256_for_name(fs_handle, name):
     # normalized XML
     if name.endswith(('.xml', '.XML')):
         with fs_handle.open(name, 'rb') as fp:
-            root= lxml.etree.parse(fp)
+            root = lxml.etree.parse(fp)
             tmpf = tempfile.mktemp(suffix='.xml')
             with open(tmpf, 'wb') as fp_out:
                 root.write_c14n(fp_out)
@@ -41,6 +41,7 @@ def hashes_for_fs(url):
             hash=h,
             hash_method='SHA256'))
     return result
+
 
 if __name__ == '__main__':
     import sys
