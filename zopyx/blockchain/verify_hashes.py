@@ -9,14 +9,17 @@ import lxml.etree
 
 from hashes import sha256_for_name
 
-def verify_hashes(url, hashes_json_fn, check_all_files=True):
-
-    # Dictify hashes from JSON hash file
+# Dictify hashes from JSON hash file
+def hashes_from_json(json_filename):
     hashes = dict()
-    with open(hashes_json_fn, 'rb') as fp:
+    with open(json_filename, 'rb') as fp:
         data = json.load(fp)
         for item in data:
             hashes[item['name']] = item['hash']
+    return hashes
+
+
+def verify_hashes(url, hashes, check_all_files=True):
 
     handle, dummy = fs.opener.open(url)
     walker = handle.walk
@@ -33,8 +36,11 @@ def verify_hashes(url, hashes_json_fn, check_all_files=True):
             return errors
     return errors
 
+
 if __name__ == '__main__':
     import sys
     import pprint
-    errors = verify_hashes(sys.argv[-2], sys.argv[-1])
+    errors = verify_hashes(
+            sys.argv[-2],
+            hashes_from_json(sys.argv[-1]))
     pprint.pprint(errors)
