@@ -31,6 +31,8 @@ def hashes_for_fs(url):
             with handle.open(name, 'rb') as fp:
                 s256.update(fp.read())
 
+        if name.startswith('/'):
+            name = name.lstrip('/')
         result.append(dict(
             name=name,
             hash=s256.hexdigest(),
