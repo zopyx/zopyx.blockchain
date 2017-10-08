@@ -30,7 +30,7 @@ setup(name='zopyx.blockchain',
       entry_points={
           'console_scripts': [
               'generate-hashes=zopyx.blockchain.scripts.generate_hashes:main',
-              'verify-hashes=zopyx.blockchain.scripts.verify_hashes:main',
+              'validate-hashes=zopyx.blockchain.scripts.validate_hashes:main',
           ]
       },
       install_requires=[

@@ -7,7 +7,7 @@ import hashlib
 import lxml.etree
 
 
-from hashes import sha256_for_name
+from zopyx.blockchain.hashes import sha256_for_name
 
 # Dictify hashes from JSON hash file
 def hashes_from_json(json_filename):
