@@ -27,9 +27,16 @@ setup(name='zopyx.blockchain',
       zip_safe=False,
       tests_require=['pytest', 'tox'],
       test_suite='tests',
+      entry_points={
+          'console_scripts': [
+              'generate-hashes=zopyx.blockchain.scripts.generate_hashes:main',
+              'verify-hashes=zopyx.blockchain.scripts.verify_hashes:main',
+          ]
+      },
       install_requires=[
-          'lxml<4',
+          'lxml',
           'fs',
+          'plac',
           'setuptools',
       ],
       )
