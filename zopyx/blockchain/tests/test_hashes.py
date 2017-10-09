@@ -1,4 +1,5 @@
 import os
+import pytest
 import fs.opener
 
 from zopyx.blockchain import hashes
@@ -36,12 +37,18 @@ def test_fs_hashes_zip_hashes():
 
     fs_result = hashes.hashes_for_fs(fs_url)
     fs_hashes= names2hashes(fs_result)
-    errors = verify_hashes.verify_hashes(fs_url, fs_hashes)
-    assert len(errors) == 0
+    verify_hashes.verify_hashes(fs_url, fs_hashes)
 
     zip_result = hashes.hashes_for_fs(zip_url)
     zip_hashes= names2hashes(zip_result)
-    errors = verify_hashes.verify_hashes(zip_url, zip_hashes)
-    assert len(errors) == 0
+    verify_hashes.verify_hashes(zip_url, zip_hashes)
 
     assert zip_hashes == fs_hashes
+
+def test_improper_fs_hashes():
+
+    fs_result = hashes.hashes_for_fs(fs_url)
+    fs_hashes= names2hashes(fs_result)
+    fs_hashes['test.xml'] = ''
+    with pytest.raises(verify_hashes.HashVerificationError):
+        verify_hashes.verify_hashes(fs_url, fs_hashes)

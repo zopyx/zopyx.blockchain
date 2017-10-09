@@ -5,8 +5,13 @@ import fs.opener
 
 from zopyx.blockchain.hashes import sha256_for_name
 
-# Dictify hashes from JSON hash file
+class HashVerificationError(Exception):
 
+    def __init__(self, errors):
+        self.errors = errors
+
+
+# Dictify hashes from JSON hash file
 
 def hashes_from_json(json_filename):
     hashes = dict()
@@ -31,8 +36,9 @@ def verify_hashes(url, hashes, check_all_files=True):
         if hash_expected and hash_calculated != hash_expected:
             errors.append('Hash for {name} differs'.format(name=name))
         if errors and not check_all_files:
-            return errors
-    return errors
+            raise HashVerificationError(errors)
+    if errors:
+        raise HashVerificationError(errors)
 
 
 if __name__ == '__main__':
