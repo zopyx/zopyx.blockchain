@@ -40,3 +40,4 @@ setup(name='zopyx.blockchain',
           'setuptools',
       ],
       )
+
