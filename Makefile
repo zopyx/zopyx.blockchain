@@ -1,3 +1,3 @@
 test:
 	bin/pip install pytest
-	bin/pytest zopyx
+	bin/pytest zopyx -v

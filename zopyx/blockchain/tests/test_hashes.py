@@ -2,6 +2,8 @@ import os
 import fs.opener
 
 from zopyx.blockchain import hashes
+from zopyx.blockchain import verify_hashes
+
 
 data_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data')
 fs_url = 'file://' + data_dir
@@ -34,8 +36,12 @@ def test_fs_hashes_zip_hashes():
 
     fs_result = hashes.hashes_for_fs(fs_url)
     fs_hashes= names2hashes(fs_result)
+    errors = verify_hashes.verify_hashes(fs_url, fs_hashes)
+    assert len(errors) == 0
 
     zip_result = hashes.hashes_for_fs(zip_url)
     zip_hashes= names2hashes(zip_result)
+    errors = verify_hashes.verify_hashes(zip_url, zip_hashes)
+    assert len(errors) == 0
 
     assert zip_hashes == fs_hashes
