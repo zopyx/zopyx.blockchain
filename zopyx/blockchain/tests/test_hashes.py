@@ -7,6 +7,14 @@ data_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data')
 fs_url = 'file://' + data_dir
 fs_handle, dummy  = fs.opener.open(data_dir)
 
+zip_url = 'zip://' + data_dir + '/../test.zip'
+
+
+def names2hashes(result):
+    name2hash = dict()
+    for d in result:
+        name2hash[d['name']] = d['hash']
+    return name2hash
 
 def test_normalized_xml():
     hash1 = hashes.sha256_for_name(fs_handle, 'test.xml') 
@@ -16,10 +24,18 @@ def test_normalized_xml():
 
 def test_hashes_for_fs():
     result = hashes.hashes_for_fs(fs_url)
-    name2hash = dict()
-    for d in result:
-        name2hash[d['name']] = d['hash']
+    result_hashes = names2hashes(result)
 
-    assert name2hash['test.jpg'] == 'a60b193e35133788bce3f8b4ef2b2af1f6e6f1f1438fc6c20033d038938638bc'
-    assert name2hash['test.xml'] == '819d187e76446c6d449a1d7f8cd2c7be48a6f35df96aeb26b656fe80c771ba70'
-    assert name2hash['test2.xml'] == '819d187e76446c6d449a1d7f8cd2c7be48a6f35df96aeb26b656fe80c771ba70'
+    assert result_hashes['test.jpg'] == 'a60b193e35133788bce3f8b4ef2b2af1f6e6f1f1438fc6c20033d038938638bc'
+    assert result_hashes['test.xml'] == '819d187e76446c6d449a1d7f8cd2c7be48a6f35df96aeb26b656fe80c771ba70'
+    assert result_hashes['test2.xml'] == '819d187e76446c6d449a1d7f8cd2c7be48a6f35df96aeb26b656fe80c771ba70'
+
+def test_fs_hashes_zip_hashes():
+
+    fs_result = hashes.hashes_for_fs(fs_url)
+    fs_hashes= names2hashes(fs_result)
+
+    zip_result = hashes.hashes_for_fs(zip_url)
+    zip_hashes= names2hashes(zip_result)
+
+    assert zip_hashes == fs_hashes
