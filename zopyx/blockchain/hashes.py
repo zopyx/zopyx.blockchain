@@ -32,7 +32,7 @@ def hashes_for_fs(url):
     handle, dummy = fs.opener.open(url)
     walker = handle.walk
 
-    result = list()
+    result = []
     for name in walker.files():
         h = sha256_for_name(handle, name)
         name = name.lstrip('/')

@@ -7,17 +7,14 @@ from zopyx.blockchain import verify_hashes
 
 
 data_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data')
-fs_url = 'file://' + data_dir
+fs_url = f'file://{data_dir}'
 fs_handle, dummy  = fs.opener.open(data_dir)
 
-zip_url = 'zip://' + data_dir + '/../test.zip'
+zip_url = f'zip://{data_dir}/../test.zip'
 
 
 def names2hashes(result):
-    name2hash = dict()
-    for d in result:
-        name2hash[d['name']] = d['hash']
-    return name2hash
+    return {d['name']: d['hash'] for d in result}
 
 def test_normalized_xml():
     hash1 = hashes.sha256_for_name(fs_handle, 'test.xml') 

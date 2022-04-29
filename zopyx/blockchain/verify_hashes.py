@@ -14,7 +14,7 @@ class HashVerificationError(Exception):
 # Dictify hashes from JSON hash file
 
 def hashes_from_json(json_filename):
-    hashes = dict()
+    hashes = {}
     with open(json_filename, 'rb') as fp:
         data = json.load(fp)
         for item in data:
@@ -27,7 +27,7 @@ def verify_hashes(url, hashes, check_all_files=True):
     handle, dummy = fs.opener.open(url)
     walker = handle.walk
 
-    errors = list()
+    errors = []
     for name in walker.files():
         hash_calculated = sha256_for_name(handle, name)
         hash_expected = hashes.get(name.lstrip('/'))
